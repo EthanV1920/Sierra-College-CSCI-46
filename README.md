@@ -1,4 +1,4 @@
-#Sierra College CSCI 46
+# Sierra College CSCI 46
 
 __Author: Ethan Vosburg__
 
