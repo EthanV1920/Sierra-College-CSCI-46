@@ -12,13 +12,16 @@
 
 int main(){
 
+    // variable declaration
     int 
     pole_length,
     i;
 
+    // accept user data
     printf("\nLegth of pole: ");
     scanf("%d", &pole_length);
 
+    // validated user data and iterates over validated data to assemble ascii image
     if(pole_length <= 3 && pole_length >= -3){
         printf("Please enter a value that is not between -3 and 3\nexiting...");
     }else{

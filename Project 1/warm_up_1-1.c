@@ -10,6 +10,7 @@
 
 int main(){
 
+    // variable declaration
     int num_one, 
         den_one, 
         num_two, 
@@ -20,6 +21,7 @@ int main(){
         den_proper,
         whole_proper;
 
+    // accept user data
     printf("Enter fraction 1 :");
     scanf("%d/%d", &num_one, &den_one);
     // printf("%d/%d", numerator_one, denominator_one);
@@ -28,6 +30,7 @@ int main(){
     printf("Enter fraction 2 :");
     scanf("%d/%d", &num_two, &den_two);
 
+    // calculate results of improper and proper fractions
     num_solution = num_one*den_two+num_two*den_one;
     den_solution = den_one*den_two;
 
@@ -35,7 +38,7 @@ int main(){
     den_proper = den_solution;
     whole_proper = (num_solution-num_proper)/den_proper; 
 
-
+    // presets solution data
     printf("Solution: %d/%d\n", num_solution, den_solution);
 
     printf("Proper Solution: %d %d/%d\n", whole_proper, num_proper, den_proper);
