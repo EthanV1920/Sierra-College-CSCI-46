@@ -19,18 +19,20 @@ int main(){
     printf("\nLegth of pole: ");
     scanf("%d", &pole_length);
 
-
-    if(pole_length > 0){
-        printf("|------+\n|      |\n|------+\n");
-        for (i = 0; i < pole_length; i= i+1){
-            printf("|\n");
+    if(pole_length <= 3 && pole_length >= -3){
+        printf("Please enter a value that is not between -3 and 3\nexiting...");
+    }else{
+        if(pole_length > 0){
+            printf("|------+\n|      |\n|------+\n");
+            for (i = 0; i < pole_length-3; i= i+1){
+                printf("|\n");
+            }
+        }else{
+            for (i = 0; i > pole_length+3; i= i-1){
+                printf("       |\n");
+            }
+            printf("+------|\n|      |\n+------|\n");
         }
-    }else {
-        for (i = 0; i > pole_length; i= i-1){
-            printf("       |\n");
-
-        }
-        printf("+------|\n|      |\n+------|\n");
     }
 
 }
