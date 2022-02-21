@@ -39,19 +39,24 @@ int main(){
     printf("width:  ");
     scanf("%d", &width);
 
-    // checks user input and adds a flag
-    if(height < height_min || height > height_max){
-        printf("Please enter a height value that is between %d and %d\n", height_max, height_min);
+    // validates user input and adds a check flag
+    if(height < height_min){
+        printf("height too low\nPlease enter a height value that is between %d and %d\n", height_min, height_max);
+    }else if(height > height_max){
+        printf("height too high\nPlease enter a height value that is between %d and %d\n", height_min, height_max);
     }else{
         check_flag +=1;
     }
 
-    if(width < width_min || width >= width_max){
-        printf("Please enter a width value that is between %d and %d\n",width_min, width_max);
+    if(width < width_min){
+        printf("Width too low\nPlease enter a width value that is between %d and %d\n",width_min, width_max);
+    }else if(width >= width_max){
+        printf("Width too high\nPlease enter a width value that is between %d and %d\n",width_min, width_max);
     }else{
         check_flag +=1;
     }
 
+    // iterates with validated user data to asseble ascii image
     if(check_flag == 2){
         for (j=0; j < height; j += 1){
             if(j == 0 || j == height-1){
