@@ -1,5 +1,5 @@
 // Ethan Vosburg
-// Febuary 2nd 2021
+// February 2nd 2021
 
 // Write a program that prompts the user for the height and width of a 
 // rectangle (in inches, as integers). It calculates the area of the 

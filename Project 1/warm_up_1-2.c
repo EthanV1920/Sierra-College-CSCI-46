@@ -1,5 +1,5 @@
 // Ethan Vosburg
-// Febuary 21st, 2022
+// February 21st, 2022
 
 // This program will be written in a file called flag.c. Prompt the
 // user for the height of a flag pole. Acceptable values are 3 to 14, 

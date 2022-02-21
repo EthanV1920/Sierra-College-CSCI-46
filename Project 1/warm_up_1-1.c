@@ -1,5 +1,5 @@
 // Ethan Vosburg
-// Febuary 10th 2021
+// February 10th 2021
 
 // Write a program named sumfrac.c that prompts the user to enter two fractions,
 // each of the form n/d. The program then adds the fractions together and displays
