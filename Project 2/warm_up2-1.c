@@ -6,9 +6,11 @@
 // until the number is positive. Print out the Collatz sequence. Print out the
 // length of the sequence.
 
+// import libraries
 #include <stdio.h>
 #include <math.h>
 
+// collect user input for option 1
 int usrIn(){
 
     int start_num = -1;
@@ -21,6 +23,7 @@ int usrIn(){
         return start_num;
 }
 
+// generate the next interger in Collatz sequence
 int collatz(long x){
 
     if(x % 2==0){
@@ -31,17 +34,54 @@ int collatz(long x){
 
 }
 
+// determine which option the user wants and run
 int main(){
     
-    int len;
+    int usr_option = 0;
 
-    for(int i = usrIn(); i != 1; i = collatz(i)){
+    printf("\n Which task would you like to do:\n    1. Find the Collatz Sequenece for a number\n    2. Find a number between 1 and 100 that give the largest sequence");
 
-        printf("%d, ", i);  
-        len +=1;
+    // Validate user input
+    while (usr_option <1 || usr_option >2)
+    {
+        printf("\n\nPlease select an option: ");
+        scanf("%d", &usr_option );
+    } 
 
+    // option 1 user entered number
+    if (usr_option == 1){
+        
+        int len = 1;
+        printf("\n");
+
+        for(int i = usrIn(); i != 1; i = collatz(i)){
+
+            printf("%d, ", i);  
+            len ++;
+
+        }
+        printf("1\n\nLength: %d\n", len);
     }
+    
+    // option 2 determine largest sequence between 1 and 1000
+    if(usr_option == 2){
+        int longest_sequence = 1;
+        int longest_sequence_length = 1;
+        int len;
 
-    printf("1\nLength: %d", len);
+        for (int j = 1; j <= 1000; j ++){
 
+            len = 1;
+            
+            for(int i = j; i != 1; i = collatz(i)){
+                // printf("%d, ", i); 
+                len ++;
+            }
+            if (len > longest_sequence){
+                longest_sequence_length = len;
+                longest_sequence = j;
+            }
+        }
+        printf(" The longest sequence is %d with a length of %d\n", longest_sequence, longest_sequence_length);
+    }
 }
