@@ -42,6 +42,7 @@ int main(){
         table_constructor(1,i,sigmoid(i));
     }
 
+    printf("\n");
 
 }
 
