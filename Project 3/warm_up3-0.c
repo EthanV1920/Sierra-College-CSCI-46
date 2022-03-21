@@ -9,6 +9,10 @@
 // Elements 26-39 	The first fourteen values in the Collatz sequence, starting with 7
 
 
+#include <stdio.h>
+
+#define ARRAY_LENGTH 40 
+
 int collatz(long x){
 
     if(x % 2==0){
@@ -16,5 +20,21 @@ int collatz(long x){
     }else{
         return (x*3)+1;
     }   
+
+}
+
+int printArray(int interger_array[]){
+  for (int j = 0; j < 39; j++ ) {
+      printf("Element[%d] = %d\n", j, interger_array[j] );
+   }
+}
+
+int main(){
+    int interger_array[ARRAY_LENGTH];
+
+    interger_array[0] = 45;
+
+    printArray(interger_array);
+    // printf("%d", interger_array[0]);
 
 }
