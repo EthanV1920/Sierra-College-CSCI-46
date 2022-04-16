@@ -72,9 +72,7 @@ int main(){
     int *ptr;
 
     ptr = interger_array;
-
-    interger_array[0] = 45;
-
+    
     section_a(ptr);
     section_b(ptr);
     section_c(ptr);
