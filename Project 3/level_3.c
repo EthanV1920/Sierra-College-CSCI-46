@@ -12,7 +12,7 @@
 #include <string.h>
 
 // Print out array with attention to end character
-void printArray(char array[], int length){
+void printArray(char array[]){
     int end = 0;
     int i = 0;
 
@@ -49,6 +49,6 @@ int main(){
 
     // Print final sting
     printf("\nHere is your string: ");
-    printArray(usrInput, 100);
+    printArray(usrInput);
 
 }
