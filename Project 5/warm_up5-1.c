@@ -9,17 +9,17 @@
 
 
 // Get price input from player with validation
-int getPrice(char prompt[], int min, int max){
-    int usrInt;
+float getPrice(char prompt[], int min){
+    float usrInt;
     
     printf("%s", prompt);
-    scanf("%d", &usrInt );
+    scanf("%f", &usrInt );
 
     // Validate user interger entry
     while (usrInt<min)
     {
-        printf("Please enter an interger between %d and %d: ", min, max);
-        scanf("%d", &usrInt );
+        printf("Please enter an interger greater than %d: ", min);
+        scanf("%f", &usrInt );
     }
 
     // Return validated responce
@@ -35,5 +35,6 @@ void usr_input(float *price){
 }
 
 int main(){
+
 
 }
