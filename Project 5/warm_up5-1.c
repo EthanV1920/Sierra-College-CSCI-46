@@ -7,18 +7,19 @@
 
 #include <stdio.h>
 
+#define PRICE_COUNT 3
 
-// Get price input from player with validation
-float getPrice(char prompt[], int min){
+// Get price input from user with validation
+float getPrice(char prompt[], int index){
     float usrInt;
     
-    printf("%s", prompt);
+    printf("%s %d: ", prompt, index);
     scanf("%f", &usrInt );
 
     // Validate user interger entry
-    while (usrInt<min)
+    while (usrInt<0)
     {
-        printf("Please enter an interger greater than %d: ", min);
+        printf("Please enter an interger greater than %d: ", 0);
         scanf("%f", &usrInt );
     }
 
@@ -26,15 +27,58 @@ float getPrice(char prompt[], int min){
     return usrInt;
 };
 
+// Gather inputs from user
 void usr_input(float *price){
-
-    if(price > 0){
-        
+    for(int i=0; i<PRICE_COUNT; i++){
+        price[i] = getPrice("Please enter a price", i+1);
     }
 
 }
 
-int main(){
+int isSorted(float *price, int length){
+    int is_sorted = 1;
+    // Checking if any values are out of order
+    for(int i = 0; i < length-1;i++){
+        if(price[i] > price[i+1]){
+            is_sorted = 0;
+        }
+    }
+    // Returning sorted state of board 0 = !sorted 1 = sorted
+    return is_sorted;
+}
 
+
+void sort(float *price){
+    float temp0, temp1;
+    while(!isSorted(price,PRICE_COUNT)){
+        for(int i=0; i<PRICE_COUNT-1; i++){
+        if(price[i] > price[i+1]){
+            temp0 = price[i];
+            temp1 = price[i+1];
+            
+            price[i] = temp1;
+            price[i+1] = temp0;
+        }
+    }
+    }
+}
+
+void printArray(float *array){
+  for (int j = 0; j < PRICE_COUNT; j++ ) {
+      printf("%0.2f ", array[j] );
+   }
+}
+
+
+int main(){
+    float prices[PRICE_COUNT];
+    float *price[PRICE_COUNT];
+    *price = prices;
+
+    usr_input(*price);
+    sort(*price);
+    printf("Prices:");
+    printArray(*price);
+   
 
 }
