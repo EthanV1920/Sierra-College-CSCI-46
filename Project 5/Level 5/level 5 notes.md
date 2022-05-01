@@ -33,6 +33,8 @@ void recover(uint8_t *data, int size){
 
 Need to find sequences to allow movement through the data quickly. Code will look for markers then find the length of each relevant section then skip through the section to find the EOI marker.
 
+[![Alt text](https://ih1.redbubble.net/image.34570371.6973/flat,800x800,070,f.u1.jpg)](https://ih1.redbubble.net/image.34570371.6973/flat,800x800,070,f.u1.jpg)
+
 ### JPEG Markers
 |  						  							  								 Short name  							 						 					                                       |  						  							  								 Bytes  							 						 					                                       |  						  							  								 Payload  							 						 					                                       |  						  							  								 Name  							 						 					                                       |  						  							  								 Comments  							 						 					                                       |
 |---|---|---|---|---|

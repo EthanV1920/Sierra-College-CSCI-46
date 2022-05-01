@@ -18,6 +18,7 @@ void save_jpeg(uint8_t *data, int size, char *filename);
 void recover(uint8_t *data, int size);
 int compare_array(int *arr1, int *arr2, int arrSize);
 void printArray(int interger_array[]);
+void reassign(int *cpArr, uint8_t *srcArr, int index, int amount);
 
 #define RAW_FILE "card.raw"
 
@@ -27,8 +28,6 @@ int main()
     int card_length;
     uint8_t *card_data = read_card(RAW_FILE, &card_length);
     
-    
-
     // Recover the images
     recover(card_data, card_length);
 }
@@ -83,54 +82,56 @@ void recover(uint8_t *data, int size){
     // int array[5] = {11,2,3,5,6};
     // int (*a)[5] = &array;   
 
+    // No/Fixed Payload
     int SOIa[4] = {255, 216, 255, 224};
     int *SOIaPtr = SOIa;
-
     int SOIb[4] = {255, 216, 255, 225};
     int *SOIbPtr = SOIb;
-    // int SOIa[4] = {255, 216, 255, 224}
-    // int SOIa[4] = {255, 216, 255, 224}
-    // int SOIa[4] = {255, 216, 255, 224}
+    int DRI[4] = {255, 221, 0, 0};
+    int *DRIPtr = DRI;
+    int EOI[4] = {255, 217, 0, 0};
+    int *EOIPtr = EOI;
 
+    // Variable Payload
+    int SOF0[4] = {255, 192, 0, 0};
+    int *SOF0Ptr = SOF0;
+    int SOF2[4] = {255, 194, 0, 0};
+    int *SOF2Ptr = SOF2;
+    int DHT[4] = {255, 196, 0, 0};
+    int *DHTPtr = DHT;
+    int DQT[4] = {255, 219, 0, 0};
+    int *DQTPtr = DQT;
+    int SOS[4] = {255, 218, 0, 0};
+    int *SOSPtr = SOS;
+    int COM[4] = {255, 254, 0, 0};
+    int *COMPtr = COM;
+    
+    
+    
 
-    for(int i = 0; i < 512*1200; i+=512){
-        // data_check_ptr = {data[i], data[i+1], data[i+2], data[i+3]};
+    for(int i = 0; i < size; i+=512){
         for(int j = 0; j< 4; j++){
             data_check_ptr[j] = data[i+j];
         }
 
         // printf("%d", data_check[0]);
-        
-        // switch (data[i])
-        // {
-        // case (data[i] == 255 && data[i+1] == 216 && data[i+2] == 255 && data[i+3] == 224):
-        //     /* code */
-        //     break;
-        
-        // default:
-        //     break;
-        // }
 
-        // block_count++;
-        // if(data[i] == 255 && data[i+1] == 216 && data[i+2] == 255 && data[i+3] == 224){
-        //     img_count++;
-        //     printf("found %d in %d blocks\n", img_count, block_count);
-        // }
-        // if(data[i] == 255 && data[i+1] == 216 && data[i+2] == 255 && data[i+3] == 225){
-        //     img_count++;
-        //     printf("found %d in %d blocks\n", img_count, block_count);
-        // }
-
-        printArray(data_check);
+        block_count++;
 
 
-        if(compare_array(data_check_ptr, SOIbPtr, 4)){
+        if(compare_array(data_check_ptr, SOIaPtr, 4) || compare_array(data_check_ptr, SOIbPtr, 4)){
+            for(int k = i; k < data; k+=2){
+                for(int j = k; j< 2; j++){
+                data_check_ptr[j] = data[k+j];
+            }
+
             img_count++;
-            printf("found %d in %d blocks\n", img_count, block_count);
+            printf("NOTE:  found %d in %d blocks\n", img_count, block_count);
         }
+     
     }
 
-    printf("TOTAL: found %d in %d blocks", img_count, block_count);
+    printf("\nTOTAL: found %d in %d blocks", img_count, block_count);
 
 }
 
@@ -144,6 +145,13 @@ int compare_array(int *arr1, int *arr2, int arrSize){
     }
     return isSame;
 
+}
+
+void reassign(int *cpArr, uint8_t *srcArr, int index, int amount){
+    for(int i = index; i< amount; i++){
+    data_check_ptr[i] = data[index+i];
+    }
+            
 }
 
 void printArray(int interger_array[]){
