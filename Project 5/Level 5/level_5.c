@@ -19,6 +19,7 @@ void recover(uint8_t *data, int size);
 int compare_array(int *arr1, int *arr2, int arrSize);
 void printArray(int interger_array[]);
 void reassign(int *cpArr, uint8_t *srcArr, int index, int amount);
+int skip(int *arr, uint8_t *data, int i, int j);
 
 #define RAW_FILE "card.raw"
 
@@ -79,9 +80,6 @@ void recover(uint8_t *data, int size){
     int *data_check_ptr;
     data_check_ptr = data_check;
 
-    // int array[5] = {11,2,3,5,6};
-    // int (*a)[5] = &array;   
-
     // No/Fixed Payload
     int SOIa[4] = {255, 216, 255, 224};
     int *SOIaPtr = SOIa;
@@ -106,33 +104,68 @@ void recover(uint8_t *data, int size){
     int COM[4] = {255, 254, 0, 0};
     int *COMPtr = COM;
     
-    
+    int JPEGstart;
+    int JPEGfinish;
+
+    uint8_t tempBuf[size];
+    char tempName[10];
     
 
     for(int i = 0; i < size; i+=512){
-        for(int j = 0; j< 4; j++){
-            data_check_ptr[j] = data[i+j];
-        }
+        reassign(data_check_ptr, data, i, 4);
 
         // printf("%d", data_check[0]);
 
         block_count++;
 
-
         if(compare_array(data_check_ptr, SOIaPtr, 4) || compare_array(data_check_ptr, SOIbPtr, 4)){
-            for(int k = i; k < data; k+=2){
-                for(int j = k; j< 2; j++){
-                data_check_ptr[j] = data[k+j];
+            JPEGstart = i;
+            img_count++;
+
+            for(int j = i; j < size; j+=1){
+                reassign(data_check_ptr, data, j, 2);
+
+                if(compare_array(data_check_ptr, SOF0Ptr, 2)){
+                    j = j + skip(data_check_ptr, data, i, j);
+                    printf("    NOTE: found SOF0\n");
+                }
+                if(compare_array(data_check_ptr, SOF2Ptr, 2)){
+                    j = j + skip(data_check_ptr, data, i, j);
+                    printf("    NOTE: found SOF2\n");
+                }
+                if(compare_array(data_check_ptr, DHTPtr, 2)){
+                    j = j + skip(data_check_ptr, data, i, j);
+                    printf("    NOTE: found DHT\n");
+                }
+                if(compare_array(data_check_ptr, DQTPtr, 2)){
+                    j = j + skip(data_check_ptr, data, i, j);
+                    printf("    NOTE: found DQT\n");
+                }
+                if(compare_array(data_check_ptr, EOIPtr, 2)){
+                    printf("    NOTE: found EOI\n");
+                    JPEGfinish = j;
+                    break;
+                }
+
             }
 
-            img_count++;
             printf("NOTE:  found %d in %d blocks\n", img_count, block_count);
+            for(int k = 0; k < JPEGfinish; k++){
+                tempBuf[k] = data[JPEGstart+k];
+            }
+            sprintf(tempName, "image %d", img_count);
+            save_jpeg(tempBuf, JPEGfinish -JPEGstart, tempName);
         }
      
     }
 
     printf("\nTOTAL: found %d in %d blocks", img_count, block_count);
 
+}
+
+int skip(int *arr, uint8_t *data, int i, int j){
+    unsigned char buf = data[i+j] + data[i+j+1];
+    return (int)buf;
 }
 
 int compare_array(int *arr1, int *arr2, int arrSize){
@@ -148,10 +181,9 @@ int compare_array(int *arr1, int *arr2, int arrSize){
 }
 
 void reassign(int *cpArr, uint8_t *srcArr, int index, int amount){
-    for(int i = index; i< amount; i++){
-    data_check_ptr[i] = data[index+i];
-    }
-            
+    for(int i = 0; i< amount; i++){
+        cpArr[i] = srcArr[index+i];
+    }            
 }
 
 void printArray(int interger_array[]){
