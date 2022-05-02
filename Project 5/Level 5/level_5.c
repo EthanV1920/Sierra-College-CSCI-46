@@ -107,9 +107,10 @@ void recover(uint8_t *data, int size){
     int JPEGstart;
     int JPEGfinish;
 
-    uint8_t tempBuf[size];
+    uint8_t *tempBuf = malloc(sizeof(size));
     char tempName[10];
     
+    printf("size: %d sizeof: %lu\n", size, sizeof(size));
 
     for(int i = 0; i < size; i+=512){
         reassign(data_check_ptr, data, i, 4);
@@ -127,34 +128,44 @@ void recover(uint8_t *data, int size){
 
                 if(compare_array(data_check_ptr, SOF0Ptr, 2)){
                     j = j + skip(data_check_ptr, data, i, j);
-                    printf("    NOTE: found SOF0\n");
+                    printf("    NOTE: found SOF0\n  Skipping: %d\n", skip(data_check_ptr, data, i, j));
                 }
                 if(compare_array(data_check_ptr, SOF2Ptr, 2)){
                     j = j + skip(data_check_ptr, data, i, j);
-                    printf("    NOTE: found SOF2\n");
+                    printf("    NOTE: found SOF2\n  Skipping: %d\n", skip(data_check_ptr, data, i, j));
                 }
                 if(compare_array(data_check_ptr, DHTPtr, 2)){
                     j = j + skip(data_check_ptr, data, i, j);
-                    printf("    NOTE: found DHT\n");
+                    printf("    NOTE: found DHT\n  Skipping: %d\n", skip(data_check_ptr, data, i, j));
                 }
                 if(compare_array(data_check_ptr, DQTPtr, 2)){
                     j = j + skip(data_check_ptr, data, i, j);
-                    printf("    NOTE: found DQT\n");
+                    printf("    NOTE: found DQT\n  Skipping: %d\n", skip(data_check_ptr, data, i, j));
+                }
+                if(compare_array(data_check_ptr, SOSPtr, 2)){
+                    j = j + skip(data_check_ptr, data, i, j);
+                    printf("    NOTE: found SOS\n  Skipping: %d\n", skip(data_check_ptr, data, i, j));
+                }
+                if(compare_array(data_check_ptr, COMPtr, 2)){
+                    j = j + skip(data_check_ptr, data, i, j);
+                    printf("    NOTE: found COM\n  Skipping: %d\n", skip(data_check_ptr, data, i, j));
                 }
                 if(compare_array(data_check_ptr, EOIPtr, 2)){
-                    printf("    NOTE: found EOI\n");
                     JPEGfinish = j;
+                    printf("    NOTE: found EOI\n   S: %d F: %d\n", JPEGstart, JPEGfinish);
+                    i=j;
                     break;
                 }
 
             }
 
             printf("NOTE:  found %d in %d blocks\n", img_count, block_count);
-            for(int k = 0; k < JPEGfinish; k++){
+
+            for(int k = 0; k < (JPEGfinish-JPEGstart); k++){
                 tempBuf[k] = data[JPEGstart+k];
             }
             sprintf(tempName, "image %d", img_count);
-            save_jpeg(tempBuf, JPEGfinish -JPEGstart, tempName);
+            save_jpeg(tempBuf, JPEGfinish-JPEGstart, tempName);
         }
      
     }
@@ -164,8 +175,14 @@ void recover(uint8_t *data, int size){
 }
 
 int skip(int *arr, uint8_t *data, int i, int j){
-    unsigned char buf = data[i+j] + data[i+j+1];
-    return (int)buf;
+    // char temp[sizeof(uint8_t)*2];
+    // uint8_t temp[sizeof(uint8_t)*2];
+    // memcpy(&temp, data[j],1);
+    // memcpy(&temp, data[j+1],1);
+    printf("    %X %X\n", (char)data[j+2], (char)data[j+3]);
+    // sprintf(temp, "%X%X", (char)data[j], (char)data[j+1]);
+    // unsigned char buf = data[i+j+1] + data[i+j+2];
+    return 0;
 }
 
 int compare_array(int *arr1, int *arr2, int arrSize){
