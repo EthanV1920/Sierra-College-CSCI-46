@@ -2,3 +2,9 @@
 #Executables
 *.out
 *.out/**
+
+.vscode/launch.json
+
+.vscode/settings.json
+
+*.jpeg
