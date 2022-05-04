@@ -1,0 +1,59 @@
+size: 15728640 sizeof: 4
+    INDEX: 559616
+NOTE:  found 1 in 1094 blocks
+    INDEX: 811520
+NOTE:  found 2 in 1586 blocks
+    INDEX: 1544704
+NOTE:  found 3 in 3018 blocks
+    INDEX: 2485760
+NOTE:  found 4 in 4856 blocks
+    INDEX: 2741760
+NOTE:  found 5 in 5356 blocks
+    INDEX: 2818560
+NOTE:  found 6 in 5506 blocks
+    INDEX: 3021312
+NOTE:  found 7 in 5902 blocks
+    INDEX: 3270144
+NOTE:  found 8 in 6388 blocks
+    INDEX: 3515904
+NOTE:  found 9 in 6868 blocks
+    INDEX: 3536384
+NOTE:  found 10 in 6908 blocks
+    INDEX: 3768832
+NOTE:  found 11 in 7362 blocks
+    INDEX: 4016640
+NOTE:  found 12 in 7846 blocks
+    INDEX: 4265472
+NOTE:  found 13 in 8332 blocks
+    INDEX: 4694528
+NOTE:  found 14 in 9170 blocks
+    INDEX: 5166592
+NOTE:  found 15 in 10092 blocks
+    INDEX: 5425664
+NOTE:  found 16 in 10598 blocks
+    INDEX: 5844480
+NOTE:  found 17 in 11416 blocks
+    INDEX: 6094336
+NOTE:  found 18 in 11904 blocks
+    INDEX: 7013888
+NOTE:  found 19 in 13700 blocks
+    INDEX: 7272960
+NOTE:  found 20 in 14206 blocks
+    INDEX: 7521792
+NOTE:  found 21 in 14692 blocks
+    INDEX: 7772672
+NOTE:  found 22 in 15182 blocks
+    INDEX: 8019456
+NOTE:  found 23 in 15664 blocks
+    INDEX: 8251904
+NOTE:  found 24 in 16118 blocks
+    INDEX: 8510976
+NOTE:  found 25 in 16624 blocks
+    INDEX: 8701440
+NOTE:  found 26 in 16996 blocks
+    INDEX: 8950272
+NOTE:  found 27 in 17482 blocks
+    INDEX: 10527232
+NOTE:  found 28 in 20562 blocks
+    INDEX: 10780160
+NOTE:  found 29 in 21056 blocks

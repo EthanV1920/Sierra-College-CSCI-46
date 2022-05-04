@@ -6,7 +6,7 @@
 #include <stdint.h>
 
 int main(){
-    uint8_t array[2] = {"0F", "32"};
+    uint8_t array[] = {"0F", "32"};
     printf("values are %X and %X\ndecimals are %d and %d", array[0], array[1], array[0], array[1]);
 
 }
