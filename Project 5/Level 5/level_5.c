@@ -12,6 +12,9 @@
 #include <unistd.h>
 #include <stdint.h>
 
+#define bytes_to_u8(MSB,LSB) (((unsigned int) ((unsigned char) MSB)) & 255)<<8 | (((unsigned char) LSB)&255) 
+
+
 // Function prototypes. Don't change these.
 uint8_t *read_card(char *fname, int *size);
 void save_jpeg(uint8_t *data, int size, char *filename);
@@ -125,10 +128,11 @@ void recover(uint8_t *data, int size){
         if(compare_array(data_check_ptr, SOIaPtr, 2) || compare_array(data_check_ptr, SOIbPtr, 2)){
             reassign(data_check_ptr, data, i+2, 4);
             if(compare_array(data_check_ptr, E0Ptr, 2) || compare_array(data_check_ptr, E1Ptr, 2)){
-                printf("size: %d i: %d\n", size, i/16 );
+                printf("size: %d i: %d\n", size, i/16 +1);
                 printf("    NOTE: found E0 or E1        %d\n",skip(data,i) );
+                JPEGstart = i;
+                i = i + skip(data,i+2);
                 img_count++;
-                JPEGstart = i+1;
             
                 for(int j = i; j<size; j++){ 
                     reassign(data_check_ptr, data, j, 2);
@@ -179,10 +183,10 @@ void recover(uint8_t *data, int size){
                     save_jpeg(tempBuf, JPEGfinish-JPEGstart, tempName);
                     free(tempBuf);
                 }
+                printf("NOTE:  found %d in %d blocks\n", img_count, block_count);
             }
             
             
-            printf("NOTE:  found %d in %d blocks\n", img_count, block_count);
         }
      
     }
@@ -202,8 +206,8 @@ int skip(uint8_t *data, int i){
     // }
     // snprintf(temp, 1, "%X%X", (char)data[j+2], (char)data[j+3]);
 
-    int rec = (int)(((unsigned)data[i+3] << 8) | data[i+2] );
-
+    // int rec = (int)(((unsigned)data[i+2] << 8) | data[i+3] );
+    int rec = bytes_to_u8(data[i+2], data[i+3]);
     printf("    %X -- %d\n", rec, rec);
     // sprintf(temp, "%X%X", (char)data[j], (char)data[j+1]);
     // unsigned char buf = data[i+j+1] + data[i+j+2];
