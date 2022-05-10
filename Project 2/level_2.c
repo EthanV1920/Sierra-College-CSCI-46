@@ -10,19 +10,19 @@
 #include <math.h>
 
 // collect denominations
-int usrDenominations(){
-    int den1,
-        den2,
-        den3,
-        den4,
-        den5;
+// int usrDenominations(){
+//     int den1,
+//         den2,
+//         den3,
+//         den4,
+//         den5;
 
-    int denominations[] = {den1, den2, den3, den4, den5};
-    printf("1, 5, 10, 20, 100\nPlease enter your denomonations in the format above or press enter to use those defaults:");
-    scanf("%d, %d, %d, %d, %d", &den1, &den2, &den3, &den4, &den5);
-    return 1;
+//     int denominations[] = {den1, den2, den3, den4, den5};
+//     printf("1, 5, 10, 20, 100\nPlease enter your denomonations in the format above or press enter to use those defaults:");
+//     scanf("%d, %d, %d, %d, %d", &den1, &den2, &den3, &den4, &den5);
+//     return 1;
 
-}
+// }
 
 // collect user input
 int usrIn(){
@@ -38,10 +38,23 @@ int usrIn(){
         return change_amount;
 }
 
+// Calculate the number of bills needed
+void bills(int amount){
+    int total = 0;
+    int remainder = 0;
+    int denominations[5] = {100, 20, 10, 5, 1};     // Enter denominations to check
+
+    for(int i = 0; i <5; i++){
+        remainder = amount%denominations[i];
+        total = total + (amount - remainder)/denominations[i];
+        amount = remainder;
+    }
+        
+    printf("you will get %d bills back", total);
+}
+
 
 int main()
 {
-    printf("%d", usrDenominations());
-    usrIn();
-
+    bills(usrIn());
 }
