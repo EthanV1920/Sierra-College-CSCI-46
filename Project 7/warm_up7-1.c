@@ -10,9 +10,24 @@
 
 
 #include <stdio.h>
-
-
+#include <string.h>
 
 int main(){
+    char main_str[1000],
+        temp_str[20];
 
+    char *tempPtr = temp_str;
+    usrIn(tempPtr);
+    
+    strcat(main_str, temp_str);
+    printf("\n%s", main_str);
+}
+
+void usrIn(char *tempStr){
+    char newline = "\n";
+    char usrInput[20];
+    fgets(usrInput, 20, stdin);
+    for(int i = 0; i < strchr(usrInput, newline); i++){
+        tempStr[i] = usrInput[i];
+    }
 }
