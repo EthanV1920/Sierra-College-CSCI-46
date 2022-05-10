@@ -12,22 +12,50 @@
 #include <stdio.h>
 #include <string.h>
 
+void usrIn(char *temp_str_ptr);
+
 int main(){
     char main_str[1000],
+        main_str_temp[980],
         temp_str[20];
+    char *temp_str_ptr = temp_str;
 
-    char *tempPtr = temp_str;
-    usrIn(tempPtr);
-    
+    usrIn(temp_str_ptr);
     strcat(main_str, temp_str);
-    printf("\n%s", main_str);
+    strcat(main_str, " ");
+    printf("%s", main_str);
+
+    while (1){
+        usrIn(temp_str_ptr);
+
+        if(strcmp(temp_str, "DONE")==0){
+            printf("%s", main_str);
+            break;
+        }
+        if(!strstr(main_str, temp_str)){
+            if(strcmp(temp_str, main_str)>0){
+                strcat(main_str, temp_str);
+                strcat(main_str, " ");
+            }
+            if(strcmp(temp_str, main_str)<0){
+                strcpy(main_str_temp, main_str);
+                strcpy(main_str, temp_str);
+                strcat(main_str, " ");
+                strcat(main_str, main_str_temp);
+            }
+        }
+
+        printf("%s", main_str);
+        
+    }
 }
 
-void usrIn(char *tempStr){
-    char newline = "\n";
+void usrIn(char *temp_str_ptr){
     char usrInput[20];
+    printf("\nEnter a string: ");
     fgets(usrInput, 20, stdin);
-    for(int i = 0; i < strchr(usrInput, newline); i++){
-        tempStr[i] = usrInput[i];
-    }
+    *strchr(usrInput, '\n') = '\0';
+    strcpy(temp_str_ptr, usrInput);
+    // printf("%s -- ", temp_str_ptr);
+
 }
