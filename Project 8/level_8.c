@@ -13,18 +13,51 @@
 // present, trimmed off before hashing.
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "md5.h"
 
-int main(){
-    printf("Please enter a string: ");
-    char line[1000];
-    fgets(line, 1000, stdin);
+int main(int argc, char *argv[]){
+    char line[255];
+    int linecount = 0;
+    char *hash;
+    int showline = 0;
 
-    // trim newline
-    *strchr(line, '\n') = '\0';
+    // Open file for reading data
+    FILE *in = fopen(argv[1], "r");
+    if(!in){
+        printf("Can't open %s for reading\n", argv[1]);
+        perror(NULL);
+        exit(1);
+    }
+    
+    // Open/create file for new data
+    FILE *out = fopen(argv[2], "w");
+    if(!out){
+        printf("Can't open %s for writing\n", argv[2]);
+        perror(NULL);
+        exit(1);
+    }
 
-    char *hash = md5(line, strlen(line));
+    // check for verbose flag
+    if(argv[3] && strcmp(argv[3], "-v")==0) {
+        showline = 1;   
+    }
+    if(argv[3] && strcmp(argv[3], "-v")!=0) {
+        printf("Unknown argument \"%s\"", argv[3]);
+    }
 
-    printf("HASH: %s\n", hash);
+    // Iterate over file contents and write hashes to out
+    while (fgets(line, 255, in) != NULL){
+        linecount++;
+        *strchr(line, '\n') = '\0';
+        hash = md5(line, strlen(line));
+        if(showline==1) printf("HASH %d: %s\n", linecount, hash);
+        fprintf(out, "%s\n", hash);
+    }
+
+    // Close files
+    fclose(in);
+    fclose(out);
+
 }
