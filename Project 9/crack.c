@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 // Given a target hash, crack it. Return the matching password.
 char * crackHash(char * targetHash, char * dictionaryFilename)
 {
-    char *dictHash;
+    // char *dictHash;
     // char *lineHash;
     // char dictBuf[HASH_LEN];
     // char lineBuf[HASH_LEN];
@@ -77,23 +77,41 @@ char * crackHash(char * targetHash, char * dictionaryFilename)
     fread(dictionaryContents, 1, dict.st_size, dictionaryFile);
 
     // Loop through the dictionary file, one line at a time.
+    
+    int targetCount = wordCount(targetContents, target.st_size);
+    int dictCount = wordCount(dictionaryContents, dict.st_size);
 
-    printf ("TARGET WORDCOUNT: %d   DICTIONARY WORDCOUNT: %d\n", wordCount(targetContents, target.st_size), wordCount(dictionaryContents, dict.st_size));
-    char **targetEntries = malloc(wordCount(targetContents, target.st_size) * sizeof(char*));
-    char **dictEntries = malloc(wordCount(dictionaryContents, dict.st_size) * sizeof(char*));
+    printf ("TARGET WORDCOUNT: %d   DICTIONARY WORDCOUNT: %d\n", targetCount, dictCount);
+    // char **targetEntries = malloc(wordCount(targetContents, target.st_size) * sizeof(char*));
+    // char **dictEntries = malloc(wordCount(dictionaryContents, dict.st_size) * sizeof(char*));
+    char **targetEntries = malloc(targetCount * sizeof(char*));
+    char **dictEntries = malloc(dictCount * sizeof(char*));
 
     entryPopulation(targetEntries, targetContents, target.st_size);
     entryPopulation(dictEntries, dictionaryContents, dict.st_size);
 
-    for(int i = 0; i < wordCount(dictionaryContents, dict.st_size); i++){
-        dictHash = md5(dictEntries[i], strlen(dictEntries[i]));
-        printf("%d - %s\n",i, dictHash);
-        for(int j = 0; j < wordCount(targetContents, target.st_size); j++){
+    // dictHash = md5(dictEntries[1], strlen(dictEntries[1]));
+    // printf("%d - %s\n",1, dictHash);
+    // dictHash = md5(dictEntries[2], strlen(dictEntries[2]));
+    // printf("%d - %s\n",2, dictHash);
+    // dictHash = md5(dictEntries[3], strlen(dictEntries[3]));
+    // printf("%d - %s\n",3, dictHash);
+    // dictHash = md5(dictEntries[4], strlen(dictEntries[4]));
+    // printf("%d - %s\n",4, dictHash);
+
+
+    for(int i = 0; i < dictCount; i++){
+        // printf("%s - %d\n", dictEntries[i], strlen(dictEntries[i]));
+        char *dictHash = md5(dictEntries[i], strlen(dictEntries[i]));
+        // printf("%d - %s\n> ",i, dictHash);
+        for(int j = 0; j < targetCount; j++){
             if(strcmp(dictHash, targetEntries[j])==0){
                 printf("FOUND: %s\n", dictEntries[i]);
             }
         }
     }
+
+    printf("DONE");
 
     // while (fgets(dictBuf, 255, dictionaryFile) != NULL){
     //     *strchr(dictBuf, '\n') = '\0';
@@ -102,7 +120,7 @@ char * crackHash(char * targetHash, char * dictionaryFilename)
     //     while (fgets(lineBuf, HASH_LEN, targetFile) != NULL){
     //         // *strchr(dictBuf, '\n') = '\0';
     //         // lineHash = md5(lineBuf, strlen(lineBuf));
-    //         if(strcmp(lineBuf, dictHash)==0){
+    //         if(strcmp(lineBuf, dictHash)==0){8
     //             printf("FOUND: %s\n", dictHash);
     //         }
     //     }
@@ -140,14 +158,15 @@ int wordCount(char *list, int size){
 // }
 
 void entryPopulation(char **entryList, char *contents, int size){
+    int debug = 0;
     entryList[0] = &contents[0];
-    printf("DEBUG: %d - %s\n", 0, entryList[0]);
+    if(debug == 1)printf("DEBUG: %d - %s\n", 0, entryList[0]);
     int entry = 1;
 
     for(int i = 1; i < size; i++){
         if(contents[i] == '\0'){
-            printf("DEBUG: %d - %s\n", entry, entryList[entry]);
             entryList[entry] = &contents[i+1];
+            if(debug == 1)printf("DEBUG: %d - %s\n", entry, entryList[entry]);
             entry++;
         }
     }
