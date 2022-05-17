@@ -1,0 +1,9 @@
+Pikachu,60,electric
+Grubbin,60,grass
+Alakazam,30,psychic
+Charizard,60,fire
+Misty's Horsea,40,water
+Cyndaquil,40,psychic
+Rockruff,60,earth
+Pikachu,70,electric
+Pikachu,30,electric
