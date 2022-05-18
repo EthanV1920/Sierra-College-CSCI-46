@@ -26,10 +26,20 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-int main()
+#define PING_COUNT 3
+
+int main(int argc, char *argv[])
 {
-    int fd = create_inet_stream_socket("fremont.cs.sierracollege.edu",
-                            "2346", LIBSOCKET_IPv4, 0);
+    // Declare Variables
+    double totalTime = 0, startTime = 0, finishTime = 0;
+    struct timeval now;
+    int iterations = PING_COUNT;
+    char response[100];
+    char address[100];
+    sprintf(address, "%s.cs.sierracollege.edu", argv[1]);
+
+    printf("Connecting to %s...\n", address);
+    int fd = create_inet_stream_socket(address, "5055", LIBSOCKET_IPv4, 0);
     if (fd < 0)
     {
         printf("Can't make connection\n");
@@ -39,22 +49,32 @@ int main()
     // Convert to FILE *
     FILE *s = fdopen(fd, "r+");
     
-    // Get greeting
-    fprintf(s, "HELO\n");
-    char response[100];
-    fgets(response, 100, s);
-    printf("%s", response);
-    
-    // Get date
-    fprintf(s, "DATE\n");
-    fgets(response, 100, s);
-    printf("%s", response);
+    sleep(1);
+    printf("Connected\n");        
+
+    // Communicate with server
+    for(int i = 0; i < iterations; i++){
+        printf("Sending ping...");
+        gettimeofday(&now, NULL);
+        startTime = now.tv_sec + now.tv_usec / 1000000.0;
+
+        fprintf(s, "ping\n");      
+        fgets(response, 100, s);
+        
+        gettimeofday(&now, NULL);
+        finishTime = now.tv_sec + now.tv_usec / 1000000.0;
+
+        printf("Received Ping %d - TIME: %.3fms\n", i+1, (finishTime-startTime)*1000);
+
+        totalTime += (finishTime-startTime);
+        startTime = 0, finishTime = 0;
+    }
+
+    // Print AVETIME
+    printf("AVETIME: %.3fms\n", (totalTime/iterations)*1000);
     
     // Close the connection
     fclose(s);
     close(fd);
-    // struct timeval now;
-    // gettimeofday(&now, NULL);
-    // double secsSinceEpoch = now.tv_sec + now.tv_usec / 1000000.0;
-    // printf("%lf\n", secsSinceEpoch);
+
 }

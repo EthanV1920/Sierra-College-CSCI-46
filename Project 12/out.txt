@@ -1,0 +1,53 @@
+$ clang level_12.c -lsocket && ./a.out fremont >> out.txt
+
+Connecting to fremont.cs.sierracollege.edu...
+Connected
+Sending ping...Received Ping 1 - TIME: 0.655ms
+Sending ping...Received Ping 2 - TIME: 0.301ms
+Sending ping...Received Ping 3 - TIME: 0.277ms
+AVETIME: 0.411ms
+
+$ clang level_12.c -lsocket && ./a.out fremont >> out.txt
+
+Connecting to fremont.cs.sierracollege.edu...
+Connected
+Sending ping...Received Ping 1 - TIME: 0.749ms
+Sending ping...Received Ping 2 - TIME: 0.360ms
+Sending ping...Received Ping 3 - TIME: 0.363ms
+AVETIME: 0.491ms
+
+$ clang level_12.c -lsocket && ./a.out fremont >> out.txt
+
+Connecting to fremont.cs.sierracollege.edu...
+Connected
+Sending ping...Received Ping 1 - TIME: 0.669ms
+Sending ping...Received Ping 2 - TIME: 0.250ms
+Sending ping...Received Ping 3 - TIME: 0.205ms
+AVETIME: 0.375ms
+
+$ clang level_12.c -lsocket && ./a.out sydney >> out.txt
+
+Connecting to sydney.cs.sierracollege.edu...
+Connected
+Sending ping...Received Ping 1 - TIME: 137.070ms
+Sending ping...Received Ping 2 - TIME: 136.732ms
+Sending ping...Received Ping 3 - TIME: 137.689ms
+AVETIME: 137.164ms
+
+$ clang level_12.c -lsocket && ./a.out sydney >> out.txt
+
+Connecting to sydney.cs.sierracollege.edu...
+Connected
+Sending ping...Received Ping 1 - TIME: 137.312ms
+Sending ping...Received Ping 2 - TIME: 137.763ms
+Sending ping...Received Ping 3 - TIME: 137.669ms
+AVETIME: 137.581ms
+
+$ clang level_12.c -lsocket && ./a.out sydney >> out.txt
+
+Connecting to sydney.cs.sierracollege.edu...
+Connected
+Sending ping...Received Ping 1 - TIME: 136.951ms
+Sending ping...Received Ping 2 - TIME: 136.770ms
+Sending ping...Received Ping 3 - TIME: 136.737ms
+AVETIME: 136.819ms
