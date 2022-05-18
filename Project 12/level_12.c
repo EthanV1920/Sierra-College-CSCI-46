@@ -23,11 +23,38 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include <libsocket/libinetsocket.h>
+#include <unistd.h>
+#include <stdlib.h>
 
 int main()
 {
-    struct timeval now;
-    gettimeofday(&now, NULL);
-    double secsSinceEpoch = now.tv_sec + now.tv_usec / 1000000.0;
-    printf("%lf\n", secsSinceEpoch);
+    int fd = create_inet_stream_socket("fremont.cs.sierracollege.edu",
+                            "2346", LIBSOCKET_IPv4, 0);
+    if (fd < 0)
+    {
+        printf("Can't make connection\n");
+        exit(1);
+    }
+    
+    // Convert to FILE *
+    FILE *s = fdopen(fd, "r+");
+    
+    // Get greeting
+    fprintf(s, "HELO\n");
+    char response[100];
+    fgets(response, 100, s);
+    printf("%s", response);
+    
+    // Get date
+    fprintf(s, "DATE\n");
+    fgets(response, 100, s);
+    printf("%s", response);
+    
+    // Close the connection
+    fclose(s);
+    close(fd);
+    // struct timeval now;
+    // gettimeofday(&now, NULL);
+    // double secsSinceEpoch = now.tv_sec + now.tv_usec / 1000000.0;
+    // printf("%lf\n", secsSinceEpoch);
 }
